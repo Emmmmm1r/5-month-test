@@ -9,29 +9,34 @@ const App = () => {
   const [error, setError] = useState("")
 
   const handleRegister = () => {
-    if (!username || !password || !confirmPassword) {
+    const trimUsername = username.trim()
+    const trimPassword = password.trim()
+    const trimConfirmPassword = confirmPassword.trim()
+
+    if (!trimUsername || !trimPassword || !trimConfirmPassword) {
       setError("Заполните все поля!")
       return
     }
 
-    if (password !== confirmPassword) {
+    if (trimPassword !== trimConfirmPassword) {
       setError("Пароли не совпадают!")
       return
     }
 
-    const isUserExists = users.some((user) => user.username === username)
+    const isUserExists = users.some((user) => user.username === trimUsername)
     if (isUserExists) {
       setError("Пользователь с таким именем уже зарегистрирован!")
       return
     }
 
-    const newUser = { username, password }
+    const newUser = { username: trimUsername, password: trimPassword }
     setUsers([...users, newUser])
     setError("")
     setUsername("")
     setPassword("")
     setConfirmPassword("")
   };
+
 
 
   return (
